@@ -24,17 +24,19 @@ The main aim of this laboratory experiment is to implement a pipeline for object
 ## Methodology:
 
 ### 1. Data Acquisition & Preprocessing
-The input data consists of a group photograph (![Plaksha_Faculty](https://github.com/user-attachments/assets/3fd2a00f-a05c-4bbe-adaf-01febc3c07fb) and a target template image (`Dr_Shashi_Tharoor.jpg`).
+The input data consists of a group photograph and a target template image. 
+(![Plaksha_Faculty](https://github.com/user-attachments/assets/3fd2a00f-a05c-4bbe-adaf-01febc3c07fb)  
+![Dr_Shashi_Tharoor](https://github.com/user-attachments/assets/b1770b37-3c73-4e26-a99a-13314effefda)
+
 * **Image Loading:** Images are loaded using `cv2.imread()`.
 * **Color Conversion:** Since OpenCV loads images in BGR format by default, they are converted to RGB for correct visualization using `matplotlib`.
 
 ### 2. Face Detection (Haar Cascades)
 To isolate the region of interest (faces), I utilized the `cv2.CascadeClassifier`.
-* **Algorithm:** Haar Feature-based Cascade Classifiers.
-* **Process:** The classifier uses a sliding window approach to detect edge, line, and four-rectangle features.
-* **Parameters:**
-    * `scaleFactor`: 1.05 (Specifies how much the image size is reduced at each image scale).
-    * `minNeighbors`: 4 (Specifies how many neighbors each candidate rectangle should have to retain it).
+* **Algorithm:** Haar Feature based Cascade Classifiers.
+* **Process:** The classifier uses a sliding window approach to detect edge, line, and four rectangle features.
+
+<img width="1002" height="538" alt="Screenshot 2026-02-15 at 10 24 53 PM" src="https://github.com/user-attachments/assets/8124cabc-41a1-4789-adef-8a61662cd44c" />
 
 > **Note:** The detection logic relies on a pre-trained XML file (`haarcascade_frontalface_default.xml`) provided by the OpenCV library.
 
