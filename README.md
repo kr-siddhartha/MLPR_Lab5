@@ -24,7 +24,7 @@ The main aim of this laboratory experiment is to implement a pipeline for object
 ## Methodology:
 
 ### 1. Data Acquisition & Preprocessing
-The input data consists of a group photograph (`Plaksha_Faculty.jpg`) and a target template image (`Dr_Shashi_Tharoor.jpg`).
+The input data consists of a group photograph (`/Users/apple/Downloads/MLPR LAB 5/Plaksha_Faculty.jpg`) and a target template image (`Dr_Shashi_Tharoor.jpg`).
 * **Image Loading:** Images are loaded using `cv2.imread()`.
 * **Color Conversion:** Since OpenCV loads images in BGR format by default, they are converted to RGB for correct visualization using `matplotlib`.
 
