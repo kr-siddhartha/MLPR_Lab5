@@ -25,9 +25,8 @@ The main aim of this laboratory experiment is to implement a pipeline for object
 
 ### 1. Data Acquisition & Preprocessing
 The input data consists of a group photograph and a target template image. 
-(![Plaksha_Faculty](https://github.com/user-attachments/assets/3fd2a00f-a05c-4bbe-adaf-01febc3c07fb)  
+![Plaksha_Faculty](https://github.com/user-attachments/assets/3fd2a00f-a05c-4bbe-adaf-01febc3c07fb)  
 ![Dr_Shashi_Tharoor](https://github.com/user-attachments/assets/b1770b37-3c73-4e26-a99a-13314effefda)
-
 * **Image Loading:** Images are loaded using `cv2.imread()`.
 * **Color Conversion:** Since OpenCV loads images in BGR format by default, they are converted to RGB for correct visualization using `matplotlib`.
 
@@ -35,8 +34,6 @@ The input data consists of a group photograph and a target template image.
 To isolate the region of interest (faces), I utilized the `cv2.CascadeClassifier`.
 * **Algorithm:** Haar Feature based Cascade Classifiers.
 * **Process:** The classifier uses a sliding window approach to detect edge, line, and four rectangle features.
-
-<img width="1002" height="538" alt="Screenshot 2026-02-15 at 10 24 53 PM" src="https://github.com/user-attachments/assets/8124cabc-41a1-4789-adef-8a61662cd44c" />
 
 > **Note:** The detection logic relies on a pre-trained XML file (`haarcascade_frontalface_default.xml`) provided by the OpenCV library.
 
@@ -53,52 +50,54 @@ The core machine learning task involved partitioning the $N$ faces into $k$ clus
 * **Distance Metric:** Euclidean Distance.
 * The algorithm iteratively minimizes the within-cluster sum of squares (WCSS) to find the optimal centroids for the two groups.
 
----
+### 5. Template Classification & Visualization
+To validate the model, a template image (Dr. Shashi Tharoor) was processed separately to test the clustering logic on unseen data.
+* **Template Processing:** The template face was detected, cropped, and converted to HSV space to extract its specific Mean Hue and Saturation.
+* **Prediction:** The extracted feature vector was passed to the trained K-Means model `kmeans.predict` to classify the template into Cluster 0 or Cluster 1.
+* **Overlay Visualization:** The template image was then plotted onto the existing scatter plot with a distinct border and marker size to visually confirm its position relative to the calculated centroids.
 
-## 📊 Key Findings & Visualizations
+## Key Findings & Visualizations
 
 ### Visual 1: Detected Faces
 The Haar Cascade classifier successfully identified multiple faces within the group image. Bounding boxes were drawn to verify accuracy before feature extraction.
 
-*(Place your screenshot of the group photo with red/green rectangles here)*
-> *Figure 1: Result of Haar Cascade Face Detection on the faculty group photo.*
+<img width="1280" height="854" alt="Total number of face detected are 30" src="https://github.com/user-attachments/assets/7232b098-e4fb-41ed-8703-1a5fcf840f75" />
+*Figure 1: Result of Haar Cascade Face Detection on the faculty group photo.*
 
 ### Visual 2: K-Means Clustering Results
 The scatter plot below visualizes the distribution of faces based on their Mean Hue (X-axis) and Mean Saturation (Y-axis).
+
+<img width="1002" height="538" alt="Screenshot 2026-02-15 at 10 24 53 PM" src="https://github.com/user-attachments/assets/8124cabc-41a1-4789-adef-8a61662cd44c" />
+*Figure 2: Scatter plot showing the clustering of faculty faces. The actual face images are plotted as markers to visualize the grouping.*
+
+### Visual 3: Template Classification
 * **Cluster 0 (Green Points):** Represents faces with specific lighting/skin-tone characteristics defined by Centroid 0.
 * **Cluster 1 (Blue Points):** Represents the second group with distinct average Hue/Saturation values.
 * **Centroids:** Marked with large 'X' markers, representing the mathematical center of each cluster.
 
-*(Place your first scatter plot image here)*
-> *Figure 2: Scatter plot showing the clustering of faculty faces. The actual face images are plotted as markers to visualize the grouping.*
+<img width="1005" height="538" alt="Screenshot 2026-02-15 at 10 26 32 PM" src="https://github.com/user-attachments/assets/afb2183e-e302-42da-8fbc-d1daac32bba0" />
+*Figure 3: Classification of the template image relative to the existing clusters.*
 
-### Visual 3: Template Classification
-The model was tested with an external image of Dr. Shashi Tharoor.
-* **Result:** The template image was processed, and its features were projected onto the existing feature space.
-* **Observation:** The template face (highlighted with a border) fell closer to the centroid of **Cluster 0/1** (Edit based on your result), demonstrating the classifier's ability to generalize.
+### Visual 4: Template Face Detection
+The Haar Cascade classifier is applied to the raw input image of Dr. Shashi Tharoor to accurately detect and crop the face, ensuring that background colors do not interfere with the HSV feature calculation.
 
-*(Place your final scatter plot with the template image here)*
-> *Figure 3: Classification of the template image relative to the existing clusters.*
+<img width="400" height="400" alt="Detected Face in Template_screenshot_15 02 2026" src="https://github.com/user-attachments/assets/f01da49e-b810-46c9-9b7f-9ea32ee5ff9d" />
 
----
+*Figure 4: Successful detection of the face in the template image using Haar Cascades.*
 
-## 🧠 Theoretical Concepts
-As part of the analysis, the following core machine learning concepts were explored:
+### Visual 5: Template Integration into Feature Space
+To visually verify the classification, the extracted template face is plotted onto the existing cluster graph alongside the faculty members. A distinct border is added to the template image marker to distinguish it from the training data, allowing us to observe exactly where its skin tone and lighting conditions place it within the existing groups.
 
-### Distance Metrics
-Distance metrics are the mathematical foundation of clustering.
-1.  **Euclidean Distance:** The straight-line distance; used by default in K-Means.
-2.  **Manhattan Distance:** The sum of absolute differences; useful for grid-like data.
-3.  **Cosine Similarity:** Measures the angle between vectors; ideal for high-dimensional text data.
+<img width="1005" height="545" alt="image" src="https://github.com/user-attachments/assets/93354ae4-f8e4-4e7f-832b-aa31310c0ed1" />
+*Figure 5: The template face plotted on the graph, showing its similarity to neighbors in the cluster.*
 
-### Bias-Variance Tradeoff in KNN
-While this lab focused on K-Means, we also analyzed K-Nearest Neighbors (KNN):
-* **Low $k$ (e.g., $k=1$):** High Variance, Low Bias. The model overfits to noise (capture every outlier).
-* **High $k$:** Low Variance, High Bias. The model underfits and smooths out the decision boundary too much.
+### Visual 6: Centroid Distance & Final Classification
+This plot highlights the mathematical decision-making process. The violet marker represents the template's exact coordinate (Hue,Saturation). By calculating the Euclidean distance between this point and the two centroids (Red 'X' and Orange 'X'), the model assigns the class based on the shorter distance.
 
----
+<img width="1005" height="545" alt="image" src="https://github.com/user-attachments/assets/f47574a2-6e9b-498e-a059-740835e7d5b8" />
+*Figure 6: Final classification plot showing the template point (Violet) relative to the cluster centroids.*
 
-## 📝 Conclusion
+## Conclusion
 This lab successfully demonstrated the end-to-end pipeline of an image processing and machine learning project.
 1.  **Robustness of HSV:** Using Hue and Saturation proved to be a reliable method for distinguishing between subtle variations in face images, more so than raw RGB pixel data.
 2.  **Unsupervised Capabilities:** K-Means successfully found structure in unlabelled data, grouping faces based on objective mathematical proximity rather than semantic labels.
